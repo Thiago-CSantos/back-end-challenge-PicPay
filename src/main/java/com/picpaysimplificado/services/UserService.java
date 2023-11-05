@@ -13,13 +13,13 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public void validateTransaction(User user, BigDecimal amount) throws Exception {
-        if (user.getUserType() == UserType.LOGISTA) {
+    public void validateTransaction(User sender, BigDecimal amount) throws Exception {
+        if (sender.getUserType() == UserType.LOGISTA) {
             throw new RuntimeException("Usuario do tipo LOGISTA não pode fazer transação!");
         }
 
         //verefica se o valor o Balance for menor que o valor do amount
-        if (user.getBalance().compareTo(amount) < 0) {
+        if (sender.getBalance().compareTo(amount) < 0) {
             throw new Exception("Saldo insuficente!");
         }
     }
@@ -28,7 +28,7 @@ public class UserService {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
     }
 
-    public void saveAll(User entity) {
+    public void saveUser(User entity) {
         repository.save(entity);
     }
 
